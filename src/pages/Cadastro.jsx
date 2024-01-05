@@ -1,14 +1,63 @@
-import { Avatar, Box, Button, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
-import React from 'react'
+import { Alert, Avatar, Box, Button, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Snackbar, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import './Login.css'
 import { Lock } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Cadastro = () => {
     const navigate = useNavigate()
+    const [nome, setNome] = useState()
+    const [telefone, setTelefone] = useState()
+    const [endereco, setEndereco] = useState()
+    const [tipo, setTipo] = useState()
+    const [senha, setSenha] = useState()
+    const [email, setEmail] = useState()
+
+    const [alerta, setAlerta] = useState(false)
+    const [mensagemAlerta, setMensagemAlerta] = useState()
+    const [tipoAlerta, setTipoAlerta] = useState('success')
+
+
+    const enviarDados = () => {
+        try {
+            axios.post('http://localhost:3001/usuarios', {
+                nome: nome,
+                telefone: telefone,
+                endereco: endereco,
+                tipo: tipo,
+                senha: senha,
+                email: email
+            }).then(() => {
+                setAlerta(true)
+                setTipoAlerta('success')
+                setMensagemAlerta('Usuário criado com sucesso')
+            })
+            .catch((e) => {
+                setAlerta(true)
+                setTipoAlerta('error')
+                setMensagemAlerta('Não foi possível cadastrar usuário')
+            })
+        } catch (e) {
+            setAlerta(true)
+            setTipoAlerta('error')
+            setMensagemAlerta('Não foi possível cadastrar usuário')
+        }
+        
+    }
 
     return (
         <>
+            <Snackbar 
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}} 
+                open={alerta} 
+                autoHideDuration={6000} 
+                onClose={() => {}}
+            >
+                <Alert variant='filled' onClose={() => {}} severity={tipoAlerta}>
+                    { mensagemAlerta }
+                </Alert>
+            </Snackbar>
             <CssBaseline />
             <Grid container sx={{ height: '100vh' }}>
                 <Grid
@@ -54,20 +103,36 @@ const Cadastro = () => {
                             label="Nome"
                             sx={{ mb: 2 }}
                             fullWidth
+                            onChange={(e) => {
+                                setNome(e.target.value)
+                            }}
                         />
+                        
                         <TextField
                             label="Telefone"
                             sx={{ mb: 2 }}
                             fullWidth
+                            onChange={(e) => {
+                                setTelefone(e.target.value)
+                            }}
                         />
                         <TextField
                             label="Endereço"
                             sx={{ mb: 2 }}
                             fullWidth
+                            onChange={(e) => {
+                                setEndereco(e.target.value)
+                            }}
                         />
                         <FormControl fullWidth sx={{ mb: 2}}>
                             <InputLabel id="label-tipo">Tipo</InputLabel>
-                            <Select labelId="label-tipo" label="Tipo">
+                            <Select 
+                                labelId="label-tipo" 
+                                label="Tipo"
+                                onChange={(e) => {
+                                    setTipo(e.target.value)
+                                }}
+                            >
                                 <MenuItem value={'C'}>Cliente</MenuItem>
                                 <MenuItem value={'R'}>Restaurante</MenuItem>
                             </Select>
@@ -77,14 +142,20 @@ const Cadastro = () => {
                             label="E-mail"
                             sx={{ mb: 2 }}
                             fullWidth
+                            onChange={(e) => {
+                                setEmail(e.target.value)
+                            }}
                         />
                         <TextField
                             label="Senha"
                             type="password"
                             fullWidth
+                            onChange={(e) => {
+                                setSenha(e.target.value)
+                            }}
                         />
 
-                        <Button variant='contained' fullWidth sx={{ mt: 5, mb: 1 }}>
+                        <Button variant='contained' fullWidth sx={{ mt: 5, mb: 1 }} onClick={enviarDados}>
                             SALVAR
                         </Button>
                         <Button variant='outlined' fullWidth onClick={() => {
