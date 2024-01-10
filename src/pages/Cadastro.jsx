@@ -32,11 +32,11 @@ const Cadastro = () => {
                 setAlerta(true)
                 setTipoAlerta('success')
                 setMensagemAlerta('Usuário criado com sucesso')
-            })
-            .catch((e) => {
-                setAlerta(true)
-                setTipoAlerta('error')
-                setMensagemAlerta('Não foi possível cadastrar usuário')
+
+                setTimeout(() => {
+                    navigate('/')
+                }, 2000)
+                
             })
         } catch (e) {
             setAlerta(true)

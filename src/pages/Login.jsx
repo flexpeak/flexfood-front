@@ -1,15 +1,50 @@
-import { Avatar, Box, Button, CssBaseline, Grid, Paper, TextField, Typography } from '@mui/material'
-import React from 'react'
+import { Alert, Avatar, Box, Button, CssBaseline, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import './Login.css'
 import { Lock } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Login = () => {
     const navigate = useNavigate()
+    const [email, setEmail] = useState()
+    const [senha, setSenha] = useState()
 
+    const [alerta, setAlerta] = useState(false)
+    const [mensagemAlerta, setMensagemAlerta] = useState()
+    const [tipoAlerta, setTipoAlerta] = useState('success')
+
+    const enviarDados = async () => {
+        try {
+            const response = await axios.post("http://localhost:3001/usuarios/login", {
+                email: email,
+                senha: senha
+            })
+
+            const token = response.data.token
+            localStorage.setItem("token", token)
+
+            navigate('/home')
+        } catch(e) {
+            setAlerta(true)
+            setMensagemAlerta(e.response.data.error)
+            setTipoAlerta("error")
+        }
+        // linha 15
+    }
 
     return (
         <>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}} 
+                open={alerta} 
+                autoHideDuration={6000} 
+                onClose={() => {setAlerta(false)}}
+            >
+                <Alert variant='filled' onClose={() => {setAlerta(false)}} severity={tipoAlerta}>
+                    { mensagemAlerta }
+                </Alert>
+            </Snackbar>
             <CssBaseline/>
             <Grid container sx={{ height: '100vh' }}>
                 <Grid 
@@ -55,14 +90,16 @@ const Login = () => {
                             label="E-mail" 
                             sx={{ mb: 2}}
                             fullWidth
+                            onChange={(e) => {setEmail(e.target.value)}}
                         />
                         <TextField 
                             label="Senha" 
                             type="password"
                             fullWidth
+                            onChange={(e) => {setSenha(e.target.value)}}
                         />
 
-                        <Button variant='contained' fullWidth sx={{ mt: 5, mb:1}}>
+                        <Button variant='contained' fullWidth sx={{ mt: 5, mb:1}} onClick={enviarDados}>
                             FAZER LOGIN
                         </Button>
                         <Button variant='outlined' fullWidth onClick={() => {
