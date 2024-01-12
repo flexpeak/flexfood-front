@@ -1,37 +1,43 @@
 import { ArrowCircleLeft, ArrowLeft, HomeMax, HomeOutlined, Menu, Notifications, Place, Restaurant, RestaurantMenu } from '@mui/icons-material'
-import { AppBar, Box, Button, CssBaseline, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, Container, CssBaseline, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const MenuLateral = ({ titulo }) => {
     const [drawer, setDrawer] = useState(false)
     const navigate = useNavigate()
+    const tipoDeUsuario = localStorage.getItem("tipo")
 
     const itensDoMenu = [
         {
             texto: 'Página Inicial',
             icone: <HomeOutlined />,
-            destino: '/home'
+            destino: '/home',
+            tipoUsuario: 'A'
         },
         {
             texto: 'Meu Restaurante',
             icone: <Restaurant />,
-            destino: '/meu-restaurante'
+            destino: '/meu-restaurante',
+            tipoUsuario: 'R'
         },
         {
             texto: 'Meus Ítens',
             icone: <RestaurantMenu />,
-            destino: '/meus-itens'
+            destino: '/meus-itens',
+            tipoUsuario: 'R'
         },
         {
             texto: 'Restaurantes',
             icone: <Place />,
-            destino: '/restaurantes'
+            destino: '/restaurantes',
+            tipoUsuario: 'C'
         },
         {
             texto: 'Sair',
             icone: <ArrowCircleLeft />,
-            destino: '/sair'
+            destino: '/sair',
+            tipoUsuario: 'A'
         }
     ];
 
@@ -42,16 +48,20 @@ const MenuLateral = ({ titulo }) => {
                     <List>
                         {
                             itensDoMenu.map((itemDoMenu) => (
-                                <ListItem>
-                                    <ListItemButton onClick={() => {
-                                        navigate(itemDoMenu.destino)
-                                    }}>
-                                        <ListItemIcon>
-                                            {itemDoMenu.icone}
-                                        </ListItemIcon>
-                                        <ListItemText primary={itemDoMenu.texto} />
-                                    </ListItemButton>
-                                </ListItem>
+                                <>
+                                    {(tipoDeUsuario == itemDoMenu.tipoUsuario || itemDoMenu.tipoUsuario == 'A') && (
+                                        <ListItem>
+                                            <ListItemButton onClick={() => {
+                                                navigate(itemDoMenu.destino)
+                                            }}>
+                                                <ListItemIcon>
+                                                    {itemDoMenu.icone}
+                                                </ListItemIcon>
+                                                <ListItemText primary={itemDoMenu.texto} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    )}
+                                </>
                             ))
                         }
                     </List>
@@ -77,7 +87,7 @@ const MenuLateral = ({ titulo }) => {
                             variant="h6"
                             sx={{ flexGrow: 1 }}
                         >
-                            { titulo }
+                            {titulo}
                         </Typography>
                         <IconButton sx={{
                             color: "#fff"

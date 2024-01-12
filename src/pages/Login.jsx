@@ -24,6 +24,9 @@ const Login = () => {
             const token = response.data.token
             localStorage.setItem("token", token)
 
+            const tipo = response.data.tipo
+            localStorage.setItem("tipo", tipo)
+
             navigate('/home')
         } catch(e) {
             setAlerta(true)
