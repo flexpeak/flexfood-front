@@ -1,21 +1,30 @@
 import React, { useState } from 'react'
 import MenuLateral from '../components/MenuLateral'
-import { Box, Button, Container, Divider, FormControl, Input, InputLabel, Paper, TextField } from '@mui/material'
+import { Box, Button, Container, Divider, FormControl, Input, InputLabel, Paper, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import ReactInputMask from 'react-input-mask'
+import { CloudUpload } from '@mui/icons-material'
 
 const MeuRestaurante = () => {
 
   const [nome, setNome] = useState()
   const [telefone, setTelefone] = useState()
   const [endereco, setEndereco] = useState()
+  const [logo, setLogo] = useState()
 
   const enviarDados = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/restaurantes", {
-        nome: nome,
-        telefone: telefone,
-        endereco: endereco
+      let formData = new FormData()
+      formData.append('nome', nome)
+      formData.append('telefone', telefone)
+      formData.append('endereco', endereco)
+      formData.append('logo', logo)
+
+      const response = await axios.post("http://localhost:3001/restaurantes", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": localStorage.getItem("token")
+        }
       })
       console.log(response)
     } catch (e) {
@@ -40,6 +49,11 @@ const MeuRestaurante = () => {
                   fullWidth
                 /> }
             </ReactInputMask>
+
+            <Button component="label" variant='contained' startIcon={<CloudUpload/>}>
+                Enviar Logo
+                <input type="file" style={{display: 'none'}} onChange={(e) => {setLogo(e.target.files[0])}}/>
+            </Button>
 
             <Divider flexItem sx={{ mb: 3 }}/>
 
