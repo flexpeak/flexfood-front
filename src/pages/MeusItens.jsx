@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import MenuLateral from '../components/MenuLateral'
 import axios from 'axios'
 import { Button, Card, CardActions, CardHeader, CardMedia, Container, Grid } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const MeusItens = () => {
   const [restaurantes, setRestaurantes] = useState([])
+  const navigate = useNavigate()
 
   const buscarDados = async () => {
     try {
@@ -13,7 +15,7 @@ const MeusItens = () => {
           Authorization: localStorage.getItem("token")
         }
       })
-
+      
       setRestaurantes(response.data)
     } catch (e) {
 
@@ -42,7 +44,11 @@ const MeusItens = () => {
                   image={ "http://localhost:3001/" + restaurante.logo?.replace("public", "") }
                 />
                 <CardActions>
-                  <Button variant='contained'>GERENCIAR ITENS</Button>
+                  <Button variant='contained' onClick={() => {
+                    navigate('/listar-itens/' + restaurante.id)
+                  }}>
+                    GERENCIAR ITENS
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>)
