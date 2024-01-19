@@ -3,6 +3,8 @@ import MenuLateral from '../components/MenuLateral'
 import { Button, Container, Divider, FormControl, InputLabel, MenuItem, Paper, Select, TextField } from '@mui/material'
 import ReactInputMask from 'react-input-mask'
 import { CloudUpload } from '@mui/icons-material'
+import axios from 'axios'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const AdicionarItens = () => {
     const [nome, setNome] = useState()
@@ -12,8 +14,32 @@ const AdicionarItens = () => {
     const [descricao, setDescricao] = useState()
     const [quantidadeEstoque, setQuantidadeEstoque] = useState()
 
+    const { restaurante_id } = useParams()
+    const navigate = useNavigate()
+
     const enviarDados = async () => {
-        
+        let formData = new FormData()
+        formData.append("nome", nome)
+        formData.append("tipo", tipo)
+        formData.append("valor", valor)
+        formData.append("foto", foto)
+        formData.append("descricao", descricao)
+        formData.append("quantidade_estoque", quantidadeEstoque)
+        try {
+            const response = await axios.post('http://localhost:3001/itens/' + restaurante_id,
+                formData
+            , {
+                headers: {
+                    "Authorization": localStorage.getItem("token"),
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+
+            alert("Operação realizada com sucesso!")
+            navigate("/listar-itens/" + restaurante_id)
+        } catch (e) {
+            alert("Não foi possível realizar essa operação")
+        }
     }
 
   return (
