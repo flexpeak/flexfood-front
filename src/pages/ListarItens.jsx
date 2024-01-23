@@ -26,7 +26,7 @@ const ListarItens = () => {
                     "Authorization": localStorage.getItem("token")
                 }
             })
-            alert("Item excluido com sucesso")
+            alert("Item exclui do com sucesso")
             obterDados()
         } catch (e) {
             alert("Erro ao excluir item")
@@ -69,7 +69,9 @@ const ListarItens = () => {
                             Quantidade em estoque: { item.quantidade_estoque }
                         </CardContent>
                         <CardActions>
-                            <Button variant='contained' onClick={() => {}}>
+                            <Button variant='contained' onClick={() => {
+                                navigate('/editar-itens/' + restaurante_id + '/' + item.id)
+                            }}>
                                 EDITAR 
                             </Button>
                             <Button variant='contained' color='error' onClick={() => { excluirItem(item.id) }}>
