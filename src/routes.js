@@ -11,6 +11,7 @@ import AdicionarItens from "./pages/AdicionarItens";
 import EditarItens from "./pages/EditarItens";
 import EditarMeuRestaurante from "./pages/EditarMeuRestaurante";
 import ListarMeuRestaurante from "./pages/ListarMeuRestaurante";
+import ClienteListarItens from "./pages/ClienteListarItens";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: '/listar-itens/:restaurante_id',
     element: <ListarItens/>
+  },
+  {
+    path: '/cliente-listar-itens/:restaurante_id',
+    element: <ClienteListarItens/>
   },
   {
     path: '/adicionar-itens/:restaurante_id',
