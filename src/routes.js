@@ -9,6 +9,8 @@ import Sair from "./pages/Sair";
 import ListarItens from "./pages/ListarItens";
 import AdicionarItens from "./pages/AdicionarItens";
 import EditarItens from "./pages/EditarItens";
+import EditarMeuRestaurante from "./pages/EditarMeuRestaurante";
+import ListarMeuRestaurante from "./pages/ListarMeuRestaurante";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/meu-restaurante',
+    element: <ListarMeuRestaurante/>
+  },
+  {
+    path: '/adicionar-meu-restaurante',
     element: <MeuRestaurante/>
+  },
+  {
+    path: '/editar-meu-restaurante/:restaurante_id',
+    element: <EditarMeuRestaurante/>
   },
   {
     path: '/meus-itens',
