@@ -9,6 +9,7 @@ const ClienteListarItens = () => {
     const navigate = useNavigate()
     const { restaurante_id } = useParams()
     const [itens, setItens] = useState([])
+    const [valorTotal, setValorTotal] = useState(0)
 
     const obterDados = async () => {
         const response = await axios.get("http://localhost:3001/itens/" + restaurante_id, {
@@ -16,21 +17,49 @@ const ClienteListarItens = () => {
                 "Authorization": localStorage.getItem("token")
             }
         })
-        setItens(response.data)
+
+        const itensComQuantidade = response.data.map((item) => (
+            {
+                ...item,
+                quantidade: 0
+            }
+        ))
+
+        setItens(itensComQuantidade)
     }
 
-    const excluirItem = async (id) => {
+    const calcularValorTotal = () => {
+        const valorCalculo = itens.reduce(function(incremento, item) {
+            return incremento + (item.quantidade * item.valor)
+        }, 0)
+        setValorTotal(valorCalculo)
+    }
+
+    const enviarDados = () => {
+        let dados = {
+            status: 1,
+            restaurante_id: restaurante_id
+        }
+
+        dados.itens = itens.filter((item) => item.quantidade > 0).map((item) => 
+            ({ 
+                item_id: item.id,
+                quantidade: item.quantidade
+            })
+        )
+
         try {
-            await axios.delete(`http://localhost:3001/itens/${restaurante_id}/${id}`, {
+            axios.post("http://localhost:3001/cliente/pedidos", dados, {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
             })
-            alert("Item exclui do com sucesso")
-            obterDados()
+            alert("Pedido realizado com sucesso!")
+            navigate("/home")
         } catch (e) {
-            alert("Erro ao excluir item")
+            alert("Não foi possível fazer pedido")
         }
+        
     }
 
     useEffect(() => {
@@ -39,7 +68,7 @@ const ClienteListarItens = () => {
 
   return (
     <>
-        <Fab sx={{
+        <Fab onClick={enviarDados} sx={{
             position: 'absolute',
             bottom: 16,
             right: 16
@@ -47,7 +76,9 @@ const ClienteListarItens = () => {
             color='primary'
             variant="extended"
         >
-            <Typography sx={{fontSize: 20, fontWeight: 'bold', mr: 2}}>R$ 0,00</Typography>
+            <Typography sx={{fontSize: 20, fontWeight: 'bold', mr: 2}}>
+                R$ { valorTotal.toFixed(2) }
+            </Typography>
             <LocalGroceryStore/>   
         </Fab>
         <MenuLateral titulo="Listagem de Itens"/>
@@ -70,15 +101,22 @@ const ClienteListarItens = () => {
                             R$ { item.valor }
                         </CardContent>
                         <CardActions sx={{display: 'flex', justifyContent: 'space-between'}}>
-                            <Button variant='contained' disabled onClick={() => {
-
+                            <Button disabled={(item.quantidade == 0)} variant='contained' onClick={() => {
+                                const novosItens = [...itens]
+                                novosItens[index].quantidade -= 1;
+                                setItens(novosItens)
+                                calcularValorTotal()
                             }}>
                                 <Remove/>
                             </Button>
                             <Typography>
-                                0
+                                { item.quantidade }
                             </Typography>
                             <Button variant='contained' onClick={() => {
+                                const novosItens = [...itens]
+                                novosItens[index].quantidade += 1;
+                                setItens(novosItens)
+                                calcularValorTotal()
                             }}>
                                 <Add/>
                             </Button>
