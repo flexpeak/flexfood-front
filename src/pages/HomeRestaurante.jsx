@@ -7,7 +7,7 @@ const HomeRestaurante = () => {
     const [pedidos, setPedidos] = useState([])
 
     const buscarDados = async () => {
-        const response = await axios.get("http://localhost:3001/restaurante/pedidos/", {
+        const response = await axios.get("https://api.tecnologia.manaus.br/restaurante/pedidos/", {
             headers: {
                 "Authorization": localStorage.getItem("token")
             }
@@ -18,7 +18,7 @@ const HomeRestaurante = () => {
 
     const confirmar = async (id) => {
         try {
-            await axios.put("http://localhost:3001/restaurante/pedidos/" + id, {
+            await axios.put("https://api.tecnologia.manaus.br/restaurante/pedidos/" + id, {
                 status: 2
             }, {
                 headers: {
@@ -33,7 +33,7 @@ const HomeRestaurante = () => {
 
     const enviar = async (id) => {
         try {
-            await axios.put("http://localhost:3001/restaurante/pedidos/" + id, {
+            await axios.put("https://api.tecnologia.manaus.br/restaurante/pedidos/" + id, {
                 status: 3
             }, {
                 headers: {
@@ -48,7 +48,7 @@ const HomeRestaurante = () => {
 
     const cancelar = async (id) => {
         try {
-            await axios.put("http://localhost:3001/restaurante/pedidos/" + id, {
+            await axios.put("https://api.tecnologia.manaus.br/restaurante/pedidos/" + id, {
                 status: 5
             }, {
                 headers: {
@@ -63,7 +63,7 @@ const HomeRestaurante = () => {
 
     const entregue = async (id) => {
         try {
-            await axios.put("http://localhost:3001/restaurante/pedidos/" + id, {
+            await axios.put("https://api.tecnologia.manaus.br/restaurante/pedidos/" + id, {
                 status: 4
             }, {
                 headers: {

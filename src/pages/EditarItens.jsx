@@ -23,7 +23,7 @@ const EditarItens = () => {
     }, [])
 
     const buscarDados = async () => {
-        const response = await axios.get('http://localhost:3001/itens/' + restaurante_id + '/' + item_id, {
+        const response = await axios.get('https://api.tecnologia.manaus.br/itens/' + restaurante_id + '/' + item_id, {
             headers: {
                 "Authorization": localStorage.getItem('token')
             }
@@ -45,7 +45,7 @@ const EditarItens = () => {
         formData.append("descricao", descricao)
         formData.append("quantidade_estoque", quantidadeEstoque)
         try {
-            const response = await axios.put('http://localhost:3001/itens/' + restaurante_id + "/" + item_id,
+            const response = await axios.put('https://api.tecnologia.manaus.br/itens/' + restaurante_id + "/" + item_id,
                 formData
             , {
                 headers: {
@@ -88,7 +88,7 @@ const EditarItens = () => {
                 </Button>
                 
                 <Box sx={{mb: 2}}>
-                    <img src={"http://localhost:3001/" + fotoAtual.replace("public", "")} height={100}/>
+                    <img src={"https://api.tecnologia.manaus.br/" + fotoAtual.replace("public", "")} height={100}/>
                 </Box>
                 
                 <TextField InputLabelProps={{ shrink: true }} value={descricao} label="Descrição" fullWidth onChange={(e) => { setDescricao(e.target.value)}} sx={{mb: 2}}/>

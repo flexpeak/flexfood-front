@@ -10,7 +10,7 @@ const MeusItens = () => {
 
   const buscarDados = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/restaurantes', {
+      const response = await axios.get('https://api.tecnologia.manaus.br/restaurantes', {
         headers: {
           Authorization: localStorage.getItem("token")
         }
@@ -41,7 +41,7 @@ const MeusItens = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={ "http://localhost:3001/" + restaurante.logo?.replace("public", "") }
+                  image={ "https://api.tecnologia.manaus.br/" + restaurante.logo?.replace("public", "") }
                 />
                 <CardActions>
                   <Button variant='contained' onClick={() => {

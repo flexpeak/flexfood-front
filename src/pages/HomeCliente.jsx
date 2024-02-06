@@ -7,7 +7,7 @@ const HomeCliente = () => {
     const [pedidos, setPedidos] = useState([])
 
     const buscarDados = async () => {
-        const response = await axios.get("http://localhost:3001/cliente/pedidos", {
+        const response = await axios.get("https://api.tecnologia.manaus.br/cliente/pedidos", {
             headers: {
                 "Authorization": localStorage.getItem("token")
             }

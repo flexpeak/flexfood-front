@@ -16,7 +16,7 @@ const Login = () => {
 
     const enviarDados = async () => {
         try {
-            const response = await axios.post("http://localhost:3001/usuarios/login", {
+            const response = await axios.post("https://api.tecnologia.manaus.br/usuarios/login", {
                 email: email,
                 senha: senha
             })

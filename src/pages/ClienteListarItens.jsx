@@ -12,7 +12,7 @@ const ClienteListarItens = () => {
     const [valorTotal, setValorTotal] = useState(0)
 
     const obterDados = async () => {
-        const response = await axios.get("http://localhost:3001/itens/" + restaurante_id, {
+        const response = await axios.get("https://api.tecnologia.manaus.br/itens/" + restaurante_id, {
             headers: {
                 "Authorization": localStorage.getItem("token")
             }
@@ -49,7 +49,7 @@ const ClienteListarItens = () => {
         )
 
         try {
-            axios.post("http://localhost:3001/cliente/pedidos", dados, {
+            axios.post("https://api.tecnologia.manaus.br/cliente/pedidos", dados, {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
@@ -91,7 +91,7 @@ const ClienteListarItens = () => {
                         <CardMedia
                             component="img"
                             height="200"
-                            image={ "http://localhost:3001/" + item.foto?.replace("public", "") }
+                            image={ "https://api.tecnologia.manaus.br/" + item.foto?.replace("public", "") }
                         />
                         <CardHeader
                             title={ item.nome }

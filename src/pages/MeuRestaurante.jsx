@@ -20,7 +20,7 @@ const MeuRestaurante = () => {
       formData.append('endereco', endereco)
       formData.append('logo', logo)
 
-      const response = await axios.post("http://localhost:3001/restaurantes", formData, {
+      const response = await axios.post("https://api.tecnologia.manaus.br/restaurantes", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": localStorage.getItem("token")

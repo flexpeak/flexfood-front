@@ -26,7 +26,7 @@ const AdicionarItens = () => {
         formData.append("descricao", descricao)
         formData.append("quantidade_estoque", quantidadeEstoque)
         try {
-            const response = await axios.post('http://localhost:3001/itens/' + restaurante_id,
+            const response = await axios.post('https://api.tecnologia.manaus.br/itens/' + restaurante_id,
                 formData
             , {
                 headers: {

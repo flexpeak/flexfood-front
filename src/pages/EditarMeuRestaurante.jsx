@@ -21,7 +21,7 @@ const EditarMeuRestaurante = () => {
   }, [])
 
   const buscarDados = async () => {
-    const response = await axios.get("http://localhost:3001/restaurantes/" + restaurante_id, {
+    const response = await axios.get("https://api.tecnologia.manaus.br/restaurantes/" + restaurante_id, {
       headers: {
         "Authorization": localStorage.getItem("token")
       }
@@ -41,7 +41,7 @@ const EditarMeuRestaurante = () => {
       formData.append('endereco', endereco)
       formData.append('logo', logo)
 
-      const response = await axios.put("http://localhost:3001/restaurantes/" + restaurante_id, formData, {
+      const response = await axios.put("https://api.tecnologia.manaus.br/restaurantes/" + restaurante_id, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": localStorage.getItem("token")
@@ -80,7 +80,7 @@ const EditarMeuRestaurante = () => {
             </Button>
 
             <Box sx={{ mt: 3}}>
-              <img src={"http://localhost:3001/" + logoAtual.replace("public", "")}/>
+              <img src={"https://api.tecnologia.manaus.br/" + logoAtual.replace("public", "")}/>
             </Box>
 
             <Divider flexItem sx={{ mb: 3 }}/>

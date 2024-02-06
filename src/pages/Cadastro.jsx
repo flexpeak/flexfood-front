@@ -21,7 +21,7 @@ const Cadastro = () => {
 
     const enviarDados = () => {
         try {
-            axios.post('http://localhost:3001/usuarios', {
+            axios.post('https://api.tecnologia.manaus.br/usuarios', {
                 nome: nome,
                 telefone: telefone,
                 endereco: endereco,

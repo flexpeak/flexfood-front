@@ -11,7 +11,7 @@ const ListarItens = () => {
     const [itens, setItens] = useState([])
 
     const obterDados = async () => {
-        const response = await axios.get("http://localhost:3001/itens/" + restaurante_id, {
+        const response = await axios.get("https://api.tecnologia.manaus.br/itens/" + restaurante_id, {
             headers: {
                 "Authorization": localStorage.getItem("token")
             }
@@ -21,7 +21,7 @@ const ListarItens = () => {
 
     const excluirItem = async (id) => {
         try {
-            await axios.delete(`http://localhost:3001/itens/${restaurante_id}/${id}`, {
+            await axios.delete(`https://api.tecnologia.manaus.br/itens/${restaurante_id}/${id}`, {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
@@ -58,7 +58,7 @@ const ListarItens = () => {
                         <CardMedia
                             component="img"
                             height="200"
-                            image={ "http://localhost:3001/" + item.foto?.replace("public", "") }
+                            image={ "https://api.tecnologia.manaus.br/" + item.foto?.replace("public", "") }
                         />
                         <CardHeader
                             title={ item.nome }
